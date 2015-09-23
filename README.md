@@ -66,6 +66,11 @@ Host 172.*
     User yourusername
 ```
 
+#### `ish` connects to the private instance IP
+
+You might find this article helpful if you use a bastion / jump-host instead
+of a VPN: http://edgeofsanity.net/article/2012/10/15/ssh-leap-frog.html
+
 ### Autocomplete
 
 A full list of supported targets can be found with `ish --completion`, and a
