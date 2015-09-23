@@ -37,6 +37,7 @@ hello there
 You can install via:
 
  - setuptools using `python3 setup.py install` and source the `contrib/ish-autocomplete` script.
+ - Homebrew using `brew install https://raw.githubusercontent.com/grahamc/ish/master/ish.rb`
 
 
 ## Details
