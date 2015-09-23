@@ -36,7 +36,7 @@ hello there
 
 You can install via:
 
- - setuptools using `python3 setup.py install` and source the `contrib/autocomplete` script.
+ - setuptools using `python3 setup.py install` and source the `contrib/ish-autocomplete` script.
 
 
 ## Details
