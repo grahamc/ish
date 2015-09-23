@@ -4,3 +4,5 @@ dist
 build
 *.egg-info
 .coverage
+bash-completion*
+wget-log

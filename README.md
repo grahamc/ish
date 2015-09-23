@@ -77,6 +77,15 @@ of a VPN: http://edgeofsanity.net/article/2012/10/15/ssh-leap-frog.html
 A full list of supported targets can be found with `ish --completion`, and a
 bash and zsh compatible autocomplete script is found in `./contrib/`.
 
+#### Auto-completing targets with spaces in them
+
+Targets with spaces in them must be quoted, but will be autocompleted without
+them. Example:
+
+```
+$ ish name:Logstash Ingestion
+```
+
 ## Contributing
 
  - `flake8` must pass with no exceptions

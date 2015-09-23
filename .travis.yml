@@ -6,4 +6,15 @@ python:
   - "3.5"
   - "nightly"
 
-script: coverage run --source ish -m unittest discover && coverage report -m --fail-under=100
+addons:
+  apt:
+    packages:
+      - expect
+      - zsh
+
+install: pip install -r requirements.txt --no-use-wheel
+
+script:
+  - coverage run --source ish -m unittest discover
+  - coverage report -m --fail-under=100
+  - ./test.expect

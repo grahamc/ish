@@ -1,16 +1,27 @@
 #!/bin/sh
 
 if [ -n "$ZSH_VERSION" ]; then
-    autoload bashcompinit
-    bashcompinit
+    autoload -U compinit
+    compinit
+
+    _ish_complete() {
+        completions="$(ish --completion)"
+        reply=( "${(ps:\n:)completions}" )
+    }
+
+  compctl -K _ish_complete ish
+elif [ -n "BASH_VERSION" ]; then
+    _ish_complete() {
+        local IFS=$'\n'
+
+        local cur prev opts
+        _get_comp_words_by_ref -n : cur
+
+        words=$(ish --completion)
+        COMPREPLY=( $(compgen -W "$words" -- "${COMP_WORDS[COMP_CWORD]}") )
+        __ltrim_colon_completions "$cur"
+        return 0
+    }
+
+    complete -F _ish_complete ish
 fi
-_ish_complete() {
-    local IFS=$'\n'
-    local cur prev opts
-    words=$(ish --completion)
-    COMPREPLY=( $(compgen -W "$words" -- "${COMP_WORDS[COMP_CWORD]}") )
-    return 0
-}
-
-
-complete -F _ish_complete ish

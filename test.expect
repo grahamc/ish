@@ -1,0 +1,107 @@
+#!/usr/bin/expect
+
+# \003 is Ctrl-C
+# \033 is right-arrow
+
+log_user 1
+
+spawn bash --norc
+expect "bash"
+send "export \"PS1=bash: \"\n"
+expect "bash:"
+
+send "test -f bash-completion-2.1.tar.bz2 || wget https://bash-completion.alioth.debian.org/files/bash-completion-2.1.tar.bz2\n"
+expect "bash:"
+send "test -d bash-completion-2.1 || tar -xf bash-completion-2.1.tar.bz2\n"
+expect "bash:"
+send "cd bash-comple\t\n"
+expect "bash:"
+send "./configure\n"
+expect "bash:"
+send "make\n"
+expect "bash:"
+send "source bash_completion\n"
+expect "bash:"
+send "cd ..\n"
+expect "bash:"
+
+send "source ./contrib/ish-autocomplete\n"
+expect "bash:"
+
+send "cat ./contrib/example.json > ~/.ish.json\n"
+expect "bash:"
+
+send "\n\n\n\n"
+expect "bash:"
+send "ish foo\t\t\t"
+expect "foo"
+send "\n"
+expect {
+    "127.0.0.1" { send \003 }
+    timeout { exit 2 }
+}
+
+send "\n\n\n\n"
+expect "bash:"
+send "ish name\t\t\t"
+expect "abc"
+send "\n"
+expect {
+    "127.0.0.2" { send \003 }
+    timeout { exit 3 }
+}
+
+send "ish \"name\t\t\t"
+expect "abc"
+send " \t"
+send "\n"
+expect {
+    "127.0.0.3" { send \003 }
+    timeoout { exit 4 }
+}
+
+close
+
+# force_conservative slows things down for zsh
+set force_conservative 1
+
+spawn zsh -f -d
+expect -exact "%"
+send "PS1=\"zsh: \"\n"
+expect "zsh:"
+send "\n"
+expect "zsh: "
+send "cat ./contrib/example.json > ~/.ish.json\n"
+expect "zsh: "
+send "source ./contrib/ish-autocomplete\n"
+expect "zsh:"
+
+send "\n\n\n\n"
+expect "zsh:"
+send "ish foo\t\t\t"
+expect "foo"
+send "\n"
+expect {
+    "127.0.0.1" { send \003 }
+    timeout { exit 5 }
+}
+
+send "\n\n\n\n"
+expect "zsh:"
+send "ish name\t\t\t"
+expect "abc"
+send "\n"
+expect {
+    "127.0.0.2" { send \003 }
+    timeout { exit 6 }
+}
+
+send "ish name:\t"
+expect "abc"
+send "\t\t\t"
+expect "123"
+send "\n"
+expect {
+    "127.0.0.3" { send \003 }
+    timeout { exit 7 }
+}
