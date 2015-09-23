@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -n "$ZSH_VERSION" ]; then
+    autoload bashcompinit
+    bashcompinit
+fi
+_ish_complete() {
+    local IFS=$'\n'
+    local cur prev opts
+    words=$(ish --completion)
+    COMPREPLY=( $(compgen -W "$words" -- "${COMP_WORDS[COMP_CWORD]}") )
+    return 0
+}
+
+
+complete -F _ish_complete ish

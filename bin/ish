@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import ish.aws
+import ish.cache
+import ish.ui
+import sys
+import os
+
+cache_file = os.path.join(
+    os.environ.get('HOME'),
+    '.ish.json'
+)
+
+options = ish.cache.load_or(cache_file, ish.aws.targets)
+
+input_handler = ish.ui.InputHandler(sys.argv, options)
+input_handler.handle_argv()
+sys.exit(128)

@@ -1,0 +1,9 @@
+language: python
+
+python:
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "nightly"
+
+script: coverage run --source ish -m unittest discover && coverage report -m --fail-under=100
