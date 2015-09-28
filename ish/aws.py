@@ -20,6 +20,8 @@ def name_tag_targets_for_instances(ilist):
     tag_nodes = {}
 
     for i in ilist:
+        if i.tags is None:
+            continue
         for tag in i.tags:
             if tag['Key'] == 'Name':
                 name = tag['Value']
@@ -34,6 +36,8 @@ def asg_targets_for_instances(ilist):
     asg_nodes = {}
 
     for i in ilist:
+        if i.tags is None:
+            continue
         for tag in i.tags:
             if tag['Key'] == 'aws:autoscaling:groupName':
                 name = tag['Value']

@@ -53,6 +53,7 @@ class TestAws(unittest.TestCase):
 
     def test_name_tag_targets_for_instances(self):
         instances = [
+            StubInstance(private_ip_address='0.0.0.0', tags=None),
             StubInstance(private_ip_address='1.2.3.4', tags=[
                 {'Key': 'foo', 'Value': 'bar'},
                 {'Key': 'Name', 'Value': 'myname'}
@@ -77,6 +78,7 @@ class TestAws(unittest.TestCase):
 
     def test_asg_targets_for_instances(self):
         instances = [
+            StubInstance(private_ip_address='0.0.0.0', tags=None),
             StubInstance(private_ip_address='1.2.3.4', tags=[
                 {'Key': 'foo', 'Value': 'bar'},
                 {'Key': 'aws:autoscaling:groupName', 'Value': 'foogroup'}
