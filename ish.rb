@@ -1,6 +1,6 @@
 class Ish < Formula
   url "https://github.com/grahamc/ish.git", :ref => 'master'
-  version '0.1.1'
+  version '0.1.2'
 
   depends_on :python3
 
