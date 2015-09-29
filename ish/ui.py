@@ -2,6 +2,7 @@ import sys
 import os
 import random
 
+
 class View:
     def __init__(self, caller, err=sys.stderr, out=sys.stdout, exit=sys.exit,
                  execvp=os.execvp):
@@ -45,6 +46,7 @@ class View:
 
         self.execvp(cmd, arguments)
         self.exit(2)
+
 
 class InputHandler:
     def __init__(self, argv, targets, ui=View):
