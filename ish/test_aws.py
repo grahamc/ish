@@ -231,7 +231,7 @@ class TestAws(unittest.TestCase):
                     {'Key': 'foo', 'Value': 'bar'},
                     {'Key': 'Name', 'Value': 'servername'},
                     {'Key': 'Environment', 'Value': 'live1'},
-                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'}
+                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'},
                     {'Key': 'opsworks:instance', 'Value': 'frontend1'},
                     {'Key': 'opsworks:stack', 'Value': 'stack1'}
                 ]
