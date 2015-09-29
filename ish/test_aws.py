@@ -95,8 +95,8 @@ class TestAws(unittest.TestCase):
 
         self.assertItemsEqual(
             [
-                ('name:live1', ['1.2.3.4', '2.3.4.5']),
-                ('name:test1', ['3.4.5.6'])
+                ('env:live1', ['1.2.3.4', '2.3.4.5']),
+                ('env:test1', ['3.4.5.6'])
             ],
             ish.aws.environment_tag_targets_for_instances(instances)
         )
@@ -166,8 +166,8 @@ class TestAws(unittest.TestCase):
 
         self.assertItemsEqual(
             [
-                ('ois:stack1', ['1.2.3.4', '3.4.5.6']),
-                ('ois:stack2', ['2.3.4.5'])
+                ('ois:stack1', ['1.2.3.4', '2.3.4.5']),
+                ('ois:stack2', ['3.4.5.6'])
             ],
             ish.aws.opsworks_instance_stack_targets_for_instances(instances)
         )
@@ -212,9 +212,9 @@ class TestAws(unittest.TestCase):
                 'asg:groupname': ['1.2.3.4'],
                 'i-abc123': ['1.2.3.4'],
                 'ami-def456': ['1.2.3.4'],
-                'name:live1': ['1.2.3.4'],
-                'name:frontend1': ['1.2.3.4'],
-                'name:stack1': ['1.2.3.4'],
+                'env:live1': ['1.2.3.4'],
+                'oin:frontend1': ['1.2.3.4'],
+                'ois:stack1': ['1.2.3.4'],
             },
             ish.aws.targets_for_instances(instances)
         )
@@ -249,9 +249,9 @@ class TestAws(unittest.TestCase):
                 'asg:groupname': ['1.2.3.4'],
                 'i-abc123': ['1.2.3.4'],
                 'ami-def456': ['1.2.3.4'],
-                'name:live1': ['1.2.3.4'],
-                'name:frontend1': ['1.2.3.4'],
-                'name:stack1': ['1.2.3.4'],
+                'env:live1': ['1.2.3.4'],
+                'oin:frontend1': ['1.2.3.4'],
+                'ois:stack1': ['1.2.3.4'],
             },
             ish.aws.targets()
         )
