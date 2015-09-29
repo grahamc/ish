@@ -13,8 +13,11 @@ server of a particular type.
 Currently you can connect to servers based on their:
 
  - name tag
+ - environment tag
  - instance id
  - autoscaling group membership
+ - opsworks instance name (oin)
+ - opsworks stack name (ois)
  - image id (AMI)
 
 If more than one server matches the attribute, it will pick one and connect

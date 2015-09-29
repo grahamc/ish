@@ -6,3 +6,5 @@ build
 .coverage
 bash-completion*
 wget-log
+.venv
+venv

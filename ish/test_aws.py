@@ -76,6 +76,31 @@ class TestAws(unittest.TestCase):
             ish.aws.name_tag_targets_for_instances(instances)
         )
 
+    def test_environment_tag_targets_for_instances(self):
+        instances = [
+            StubInstance(private_ip_address='0.0.0.0', tags=None),
+            StubInstance(private_ip_address='1.2.3.4', tags=[
+                {'Key': 'foo', 'Value': 'bar'},
+                {'Key': 'environment', 'Value': 'live1'}
+            ]),
+            StubInstance(private_ip_address='2.3.4.5', tags=[
+                {'Key': 'foo', 'Value': 'baz'},
+                {'Key': 'Environment', 'Value': 'live1'}
+            ]),
+            StubInstance(private_ip_address='3.4.5.6', tags=[
+                {'Key': 'foo', 'Value': 'baz'},
+                {'Key': 'environment', 'Value': 'test1'}
+            ]),
+        ]
+
+        self.assertItemsEqual(
+            [
+                ('env:live1', ['1.2.3.4', '2.3.4.5']),
+                ('env:test1', ['3.4.5.6'])
+            ],
+            ish.aws.environment_tag_targets_for_instances(instances)
+        )
+
     def test_asg_targets_for_instances(self):
         instances = [
             StubInstance(private_ip_address='0.0.0.0', tags=None),
@@ -99,6 +124,52 @@ class TestAws(unittest.TestCase):
                 ('asg:bargroup', ['2.3.4.5'])
             ],
             ish.aws.asg_targets_for_instances(instances)
+        )
+
+    def test_opsworks_instance_name_targets_for_instances(self):
+        instances = [
+            StubInstance(private_ip_address='0.0.0.0', tags=None),
+            StubInstance(private_ip_address='1.2.3.4', tags=[
+                {'Key': 'foo', 'Value': 'bar'},
+                {'Key': 'opsworks:instance', 'Value': 'frontend1'}
+            ]),
+            StubInstance(private_ip_address='2.3.4.5', tags=[
+                {'Key': 'foo', 'Value': 'baz'},
+                {'Key': 'opsworks:instance', 'Value': 'frontend2'}
+            ]),
+        ]
+
+        self.assertItemsEqual(
+            [
+                ('oin:frontend1', ['1.2.3.4']),
+                ('oin:frontend2', ['2.3.4.5'])
+            ],
+            ish.aws.opsworks_instance_name_targets_for_instances(instances)
+        )
+
+    def test_opsworks_instance_stack_targets_for_instances(self):
+        instances = [
+            StubInstance(private_ip_address='0.0.0.0', tags=None),
+            StubInstance(private_ip_address='1.2.3.4', tags=[
+                {'Key': 'foo', 'Value': 'bar'},
+                {'Key': 'opsworks:stack', 'Value': 'stack1'}
+            ]),
+            StubInstance(private_ip_address='2.3.4.5', tags=[
+                {'Key': 'foo', 'Value': 'baz'},
+                {'Key': 'opsworks:stack', 'Value': 'stack1'}
+            ]),
+            StubInstance(private_ip_address='3.4.5.6', tags=[
+                {'Key': 'foo', 'Value': 'baz'},
+                {'Key': 'opsworks:stack', 'Value': 'stack2'}
+            ]),
+        ]
+
+        self.assertItemsEqual(
+            [
+                ('ois:stack1', ['1.2.3.4', '2.3.4.5']),
+                ('ois:stack2', ['3.4.5.6'])
+            ],
+            ish.aws.opsworks_instance_stack_targets_for_instances(instances)
         )
 
     def test_ami_targets_for_instances(self):
@@ -126,7 +197,10 @@ class TestAws(unittest.TestCase):
                 tags=[
                     {'Key': 'foo', 'Value': 'bar'},
                     {'Key': 'Name', 'Value': 'servername'},
-                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'}
+                    {'Key': 'Environment', 'Value': 'live1'},
+                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'},
+                    {'Key': 'opsworks:instance', 'Value': 'frontend1'},
+                    {'Key': 'opsworks:stack', 'Value': 'stack1'}
                 ]
 
             )
@@ -138,6 +212,9 @@ class TestAws(unittest.TestCase):
                 'asg:groupname': ['1.2.3.4'],
                 'i-abc123': ['1.2.3.4'],
                 'ami-def456': ['1.2.3.4'],
+                'env:live1': ['1.2.3.4'],
+                'oin:frontend1': ['1.2.3.4'],
+                'ois:stack1': ['1.2.3.4'],
             },
             ish.aws.targets_for_instances(instances)
         )
@@ -153,7 +230,10 @@ class TestAws(unittest.TestCase):
                 tags=[
                     {'Key': 'foo', 'Value': 'bar'},
                     {'Key': 'Name', 'Value': 'servername'},
-                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'}
+                    {'Key': 'Environment', 'Value': 'live1'},
+                    {'Key': 'aws:autoscaling:groupName', 'Value': 'groupname'},
+                    {'Key': 'opsworks:instance', 'Value': 'frontend1'},
+                    {'Key': 'opsworks:stack', 'Value': 'stack1'}
                 ]
             ),
             StubInstance(id=2, state={'Name': 'notrunning'})
@@ -169,6 +249,9 @@ class TestAws(unittest.TestCase):
                 'asg:groupname': ['1.2.3.4'],
                 'i-abc123': ['1.2.3.4'],
                 'ami-def456': ['1.2.3.4'],
+                'env:live1': ['1.2.3.4'],
+                'oin:frontend1': ['1.2.3.4'],
+                'ois:stack1': ['1.2.3.4'],
             },
             ish.aws.targets()
         )
