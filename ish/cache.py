@@ -1,8 +1,6 @@
-
 import os
 import time
 import json
-
 
 def needs_new(cache_file, max_age):
     try:
@@ -12,7 +10,6 @@ def needs_new(cache_file, max_age):
 
     except OSError:
         return True
-
 
 def load_or(cache_file, otherwise, max_age=60):
     if not needs_new(cache_file, max_age):
