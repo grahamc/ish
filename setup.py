@@ -5,7 +5,7 @@ setup(
     package_dir={'ish': 'ish'},
     packages=find_packages(),
     install_requires=[
-        'boto3==1.1.3',
+        'boto3==1.4.3',
         'jmespath==0.9.0'
     ]
 )
